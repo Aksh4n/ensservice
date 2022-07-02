@@ -39,7 +39,7 @@
 
       <div id="logo" class="me-auto">
         <!-- Uncomment below if you prefer to use a text logo -->
-        <h1 style="font-size:20px ;"><a href="index.html">Ens<span>Service</span></a></h1>
+        <h1 style="font-size:20px ;"><a href="#">Ens<span>Service</span></a></h1>
       </div>
 
       <nav id="navbar" class="navbar order-last order-lg-0">
@@ -71,7 +71,7 @@
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
-      <a class="buy-tickets scrollto" href="tel:713-992-0916"><i class="bi bi-telephone"></i>   ..şimdi ara</a>
+      <a class="buy-tickets scrollto" href="tel:+905442081774"><i class="bi bi-telephone"></i>   ..şimdi ara</a>
 
     </div>
   </header><!-- End Header -->
@@ -408,11 +408,11 @@
           <p>e-posta adresinizi girin, personelimiz en kısa sürede sizinle iletişime geçecektir.</p>
         </div>
 
-        <form>
-          
+        <form action="{% url 'sub' %}" method="post" id="sub-form">
+          {% csrf_token %}
           <div class="row justify-content-center">
             <div class="col-lg-6 col-md-10 d-flex">
-              <input type="text" class="form-control" placeholder="Enter your Email">
+              <input type="email" id="email" class="form-control" name="email" placeholder="Enter your Email">
               <button type="submit" class="ms-2">Tamam</button>
             </div>
           </div>
@@ -545,7 +545,7 @@
             <div class="contact-phone">
               <i class="bi bi-phone"></i>
               <h3>Phone Number</h3>
-              <p><a href="tel:+155895548855">+90 544 208 17 74</a></p>
+              <p><a href="tel:+905442081774">+90 544 208 17 74</a></p>
               <p><a href="tel:0222233225200">0222 322 52 00</a></p>
 
             </div>
@@ -619,8 +619,8 @@
             <h4>Useful Links</h4>
             <ul>
               <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#about">About us</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#speakers">Services</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
             </ul>
@@ -640,7 +640,6 @@
               <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
               <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
               <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-              <a href="#" class="google-plus"><i class="bi bi-instagram"></i></a>
               <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
             </div>
 
@@ -696,6 +695,27 @@
   }
   
   </script>
+    <script>
+      const form2 = document.getElementById('sub-form');
+    form2.addEventListener("submit",submitHandler);
+    function submitHandler(e) {
+        var serializedData = $(this).serialize();
+        e.preventDefault();
+        $.ajax({
+            type: 'POST' , 
+            url : '{% url "sub" %}',
+            data: serializedData  ,
+            dataType: 'json',
+            success: function (data) {
+                if (data.ok === 'ok') {
+                    alert('e-posta bizdedir');
+                    $("#sub-form").trigger('reset');
+          }
+        }
+     })
+    }
+    
+    </script>
   
 
 
